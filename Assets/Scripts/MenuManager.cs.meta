@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1807ebcf15431784db99ac22d0b303a2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - textElement: {instanceID: 0}
+  - textContainer: {instanceID: 0}
+  - gilTime: {instanceID: 0}
+  - menu: {instanceID: 0}
+  - gilTimeImage: {fileID: 21300000, guid: c724024ec2254184ba2586c5a366a003, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

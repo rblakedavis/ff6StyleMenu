@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 046053148b5087c40b58e6209e0a4367
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 8
+  forceTextureCase: 3
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Mystery Font
+  fallbackFontReferences: []
+  customCharacters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?/:\"'-.,\u2026;#+()%~
+    =\u2191\u2192\u2199\xD7\u03B4\u03C3\u03A3\u03BA\u2695\u269A\u2605*\u03B3\u03F0\u26E8\u0371\u03B1\u03C4\U0001F56E\u03C1\u229A\u2297\u229C"
+  fontRenderingMode: 2
+  ascentCalculationMode: 2
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
