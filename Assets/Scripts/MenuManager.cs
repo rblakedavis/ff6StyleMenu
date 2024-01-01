@@ -52,7 +52,7 @@ using TMPro;
                 Debug.Log("Key: " +kvp.Key + ", Value: " + kvp.Value);
             }
             DrawSubMenu();
-            DisplayText();
+            //DisplayText();
             DrawCursor();
             data.listLength = items.Count;
         }
@@ -64,7 +64,7 @@ using TMPro;
             {
                 float timeInSeconds = Time.time;
                 string formattedTime = FormatTime(timeInSeconds);
-                timerText.text = formattedTime;
+                timerText.text = "<color=#00DBDE>Time:</color>\n" + formattedTime;
             }
         }
         #endregion
@@ -169,6 +169,7 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
+                    DisplayText();
         
                 }
                 else if(i==0)

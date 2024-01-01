@@ -612,36 +612,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 395509559}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
+      propertyPath: items.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[0]
-      value: "\u03C3Falchion"
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[1]
-      value: "\u03A3Pearl Lance"
+      value: Skills
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[2]
-      value: "\u03BAAshura"
+      value: Equip
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[3]
-      value: "\u03B4ValiantKnife"
+      value: Relic
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[4]
-      value: "\u03A1Fire Rod"
+      value: Status
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[5]
-      value: "\u2605Shuriken"
+      value: Config
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[6]
-      value: '*Flail'
+      value: Track
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[7]
-      value: "\u03B3Fixed Dice"
+      value: Save
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[8]
