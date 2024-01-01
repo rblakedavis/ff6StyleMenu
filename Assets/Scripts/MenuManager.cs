@@ -197,4 +197,17 @@ using TMPro;
                 }
             }
         }
+
+        public void SwapItems(int index1, int index2, int offset)
+        {
+            if (index1 >= 0 && index1 < items.Count && index2 >= 0 && index2 < items.Count)
+            {
+                string temp = items[index1];
+                items[index1] = items[index2];
+                items[index2] = temp;
+                currentItemIndex = index2 - offset;
+                UpdateMenuDisplay();
+            }
+
+        }
     }

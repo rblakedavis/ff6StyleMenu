@@ -11,15 +11,19 @@ public class CursorController : MonoBehaviour
     private GameObject cursorClone;
     private int currentIndex = 0;
     private int trueIndex = 0;
+    private int trueSelectedIndex = 0;
+    private int selectedIndex = 0;
+
     private int writeArea;
     private int listLength;
 
     private int maxIndex;
-    private int selectedIndex;
 
     // Introduce a delay timer
-    private float moveDelay = 0.5f; // Set the delay time in seconds
+    private float moveDelay = 0.1f; // Set the delay time in seconds
+    private float selectDelay = 0.1f;
     private float timeSinceLastMove = 0f;
+    private float timeSinceLastSelect = 0f;
     private bool isItemSelected = false;
 
     private Animator cursorCloneAnimator;
@@ -193,18 +197,32 @@ public class CursorController : MonoBehaviour
 #region item selection methods
     void ConfirmSelection()
     {
-        if (!isItemSelected)
+        if(Time.time - timeSinceLastSelect > selectDelay)
         {
-            // Perform actions when an item is selected
-            SelectItem(trueIndex);
-            isItemSelected = true;
+            if (!isItemSelected)
+            {
+                // Perform actions when an item is selected
+                SelectItem(trueIndex);
+                isItemSelected = true;
 
-            cursorClone = Instantiate(cursorPrefab, transform.position + new Vector3(6f, 5f, 0f), Quaternion.identity);
-            cursorClone.name = "GhostCursor";
-            cursorClone.transform.SetParent(GameObject.Find("CursorContainer").transform);
-            SetSortingOrder(cursorClone, GetSortingOrder() -2);
+                cursorClone = Instantiate(cursorPrefab, transform.position + new Vector3(6f, 5f, 0f), Quaternion.identity);
+                cursorClone.name = "GhostCursor";
+                cursorClone.transform.SetParent(GameObject.Find("CursorContainer").transform);
+                SetSortingOrder(cursorClone, GetSortingOrder() -2);
+                timeSinceLastSelect = 0f;
+                selectedIndex = currentIndex;
+                trueSelectedIndex = trueIndex;
+            }
+            else if (isItemSelected)
+            {
+                GameObject menuContainer = GameObject.Find("MenuContainer");
+                MenuManager menuManager = menuContainer.GetComponent<MenuManager>();
+                menuManager.SwapItems(trueSelectedIndex, trueIndex, currentIndex);
+                isItemSelected = false;
+                if(cursorClone != null) Destroy(cursorClone);
 
-            selectedIndex = currentIndex;
+            }
+
         }
     }
 
