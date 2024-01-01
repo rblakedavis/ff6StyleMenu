@@ -27,11 +27,13 @@ using TMPro;
 
         [SerializeField] private Sprite subMenuImage;
         [SerializeField] private Data data;
+        [SerializeField] TextMeshProUGUI timerText;
         private List<GameObject> itemInstance = new List<GameObject>();
         private List<string> itemNames = new List<string>();
         private int currentItemIndex = 0;
 
         Dictionary<string, int> itemDict = new Dictionary<string, int>();
+    
 
 
         //-------------------------------------------------------------
@@ -57,7 +59,13 @@ using TMPro;
 
         void Update()
         {
-
+            GameObject rtCorner = GameObject.Find("rtCorner");
+            if (rtCorner != null)
+            {
+                float timeInSeconds = Time.time;
+                string formattedTime = FormatTime(timeInSeconds);
+                timerText.text = formattedTime;
+            }
         }
         #endregion
         //-------------------------------------------------------------
@@ -126,9 +134,9 @@ using TMPro;
             {
                 GameObject menuObjectInstance = Instantiate(menuObject, transform); // Set the current script's GameObject as the parent
                 Transform rtPanel = menuObjectInstance.transform.Find("RtPanel");
-                if(rtPanel == null) Debug.Log("rtPanel not found!");
+                if(rtPanel == null) Debug.Log("RtPanel not found!");
                 Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
-                if(rtCorner == null) Debug.Log("rtCorner not found!");
+                if(rtCorner == null) Debug.Log("RtCorner not found!");
 
                 Vector3 rtPanelPosition = rtPanel.GetComponent<RectTransform>().anchoredPosition;
                 Vector3 rtCornerPosition = rtCorner.GetComponent<RectTransform>().anchoredPosition;
@@ -137,7 +145,8 @@ using TMPro;
 
                 if(i==1)
                 { 
-                    Debug.Log("i = "+i);
+                    menuObjectInstance.name = "rtPanel";
+
 
                     // Replace the image component with your desired sprite
                     Image menuImage = menuObjectInstance.GetComponent<Image>();
@@ -164,16 +173,18 @@ using TMPro;
                 }
                 else if(i==0)
                 {   
-                    Debug.Log("i = "+i);
+                    /*GameObject destroy = GameObject.Find("RtCorner");
+                    GameObject old = destroy;
+                    Destroy(old);*/
                     
-                    // Replace the image component with your desired sprite
+                    menuObjectInstance.name = "rtCorner";
+
                     Image menuImage = menuObjectInstance.GetComponent<Image>();
                     if (menuImage != null)
                     {
                         menuImage.sprite = subMenuImage;
                     }
 
-                    // Scale the RectTransform to be a fifth of its original size on x, y, and z
                     RectTransform menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
                     if (menuRectTransform != null)
                     {
@@ -266,5 +277,21 @@ using TMPro;
                 UpdateMenuDisplay();
             }
 
+        }
+
+        string FormatTime(float timeInSeconds)
+        {
+            int minutes = Mathf.FloorToInt(timeInSeconds / 60);
+            int seconds = Mathf.FloorToInt(timeInSeconds % 60);
+
+            if (timeInSeconds < 3600)
+            {
+                return string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
+            else
+            {
+                int hours = Mathf.FloorToInt(timeInSeconds / 3600);
+                return string.Format("{0:00}:{1:00}", hours, minutes);
+            }
         }
     }
