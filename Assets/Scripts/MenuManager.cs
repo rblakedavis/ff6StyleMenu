@@ -13,7 +13,9 @@ using TMPro;
         //------------------------------------------------------------------
         [SerializeField] private GameObject cursor;
         [SerializeField] private GameObject textElement;
+        [SerializeField] private GameObject quantElement;
         [SerializeField] private RectTransform textContainer;
+        [SerializeField] private RectTransform quantContainer;
         
         [SerializeField] public List<string> items = new List<string>();
 
@@ -26,7 +28,11 @@ using TMPro;
         [SerializeField] private Sprite subMenuImage;
         [SerializeField] private Data data;
         private List<GameObject> itemInstance = new List<GameObject>();
+        private List<string> itemNames = new List<string>();
         private int currentItemIndex = 0;
+
+        Dictionary<string, int> itemDict = new Dictionary<string, int>();
+
 
         //-------------------------------------------------------------
         #endregion
@@ -35,6 +41,14 @@ using TMPro;
         //-------------------------------------------------------------
         void Start()
         {
+            foreach (string str in items)
+            {
+                itemDict.Add(str, Random.Range(1,99));
+            }
+            foreach (var kvp in itemDict)
+            {
+                Debug.Log("Key: " +kvp.Key + ", Value: " + kvp.Value);
+            }
             DrawSubMenu();
             DisplayText();
             DrawCursor();
@@ -53,6 +67,7 @@ using TMPro;
             int writeArea = Mathf.RoundToInt((textContainer.sizeDelta.y - 16f) / textSpacingY);
             data.writeArea = writeArea;
 
+            itemNames.Clear();
             for(int i = 0; i<writeArea; i++)
             {
                 if(i >= items.Count) continue;
@@ -66,10 +81,43 @@ using TMPro;
                 textInstance.GetComponent<RectTransform>().anchoredPosition = position;
                 TextMeshProUGUI itemText = textInstance.GetComponent<TextMeshProUGUI>();
                 itemText.text = items[i];
+                itemNames.Add(items[i]);
                 itemInstance.Add(textInstance);
 
             }
             data.writeArea = itemInstance.Count;
+            DisplayQuant();
+        }
+
+        void DisplayQuant()
+        {
+            
+            if(data.writeArea != null) 
+            {
+                int writeArea = data.writeArea;
+            }
+            else
+            {
+                int writeArea = Mathf.RoundToInt((textContainer.sizeDelta.y - 16f) / textSpacingY);
+                data.writeArea = writeArea;
+            }
+            int index = 0;
+            foreach(string str in itemNames)
+            {
+
+                string quant = itemDict[str].ToString();
+                
+                GameObject quantInstance = Instantiate(quantElement);
+                quantInstance.name = str + "Quant";
+                quantInstance.transform.SetParent(quantContainer);
+                Vector3 position = new Vector3 (0f, -index * textSpacingY, 0f);
+                quantInstance.GetComponent<RectTransform>().anchoredPosition = position;
+                TextMeshProUGUI quantText = quantInstance.GetComponent<TextMeshProUGUI>();
+                quantText.text = quant;
+
+                index++;
+
+            }
         }
 
         void DrawSubMenu()
@@ -181,6 +229,7 @@ using TMPro;
         }
         private void UpdateMenuDisplay()
         {
+            itemNames.Clear();
             for (int i = 0; i < data.writeArea; i++)
             {
                 int itemIndex = currentItemIndex + i;
@@ -188,6 +237,8 @@ using TMPro;
                 {
                     TextMeshProUGUI itemText = itemInstance[i].GetComponent<TextMeshProUGUI>();
                     itemText.text = items[itemIndex];
+                    itemNames.Add(items[itemIndex]);
+
                 }
                 else
                 {
@@ -196,6 +247,12 @@ using TMPro;
                     itemText.text = "";
                 }
             }
+            GameObject quantList = GameObject.Find("QuantContainer");
+            foreach (Transform child in quantList.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            DisplayQuant();
         }
 
         public void SwapItems(int index1, int index2, int offset)
