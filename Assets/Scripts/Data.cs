@@ -7,5 +7,5 @@ public class Data : ScriptableObject
     public int writeArea;
     public int listLength;
     public int maxIndex;
-    public bool isItemSelected  = false;
+    public bool isMenuSortable;
 }

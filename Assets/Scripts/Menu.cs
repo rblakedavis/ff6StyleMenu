@@ -8,27 +8,43 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "menus", menuName = "ScriptableObjects/Menu", order = 1)]
 public class Menu : ScriptableObject
 {
-    public GameObject menuContainer;
-    public int menuType;
-    public GameObject mainPanel;
-    public GameObject upperPanel;
-    public GameObject sidePanelHi;
-    public GameObject sidePanelLo; 
-    public RectTransform rectTransform;
-
-    public void UpdateMenu()
+    public void OpenItemsMenu()
     {
-        switch (menuType)
-        {
-            case 0: //MainMenu
-                
-                mainPanel.GetComponent<RectTransform>().anchoredPosition = rectTransform.anchoredPosition;
-                upperPanel.GetComponent<RectTransform>().anchoredPosition = rectTransform.anchoredPosition;
-                sidePanelHi.GetComponent<RectTransform>().anchoredPosition = rectTransform.anchoredPosition;
-                sidePanelLo.GetComponent<RectTransform>().anchoredPosition = rectTransform.anchoredPosition;
-                break;
-            default:
-                break;
-        }
+        Debug.Log("items Menu opened!");
     }
-}
+
+    public void OpenSkillsMenu()
+    {
+        Debug.Log("skills menu opened!");
+    }
+
+    public void OpenEquipMenu()
+    {
+        Debug.Log("equip menu opened!");
+    }
+
+    public void OpenRelicMenu()
+    {
+        Debug.Log("relic menu opened!");
+    }
+
+    public void OpenStatusMenu()
+    {
+        Debug.Log("status menu opened!");
+    }
+
+    public void OpenTrackMenu()
+    {
+        Debug.Log("Track menu opened!");
+    }
+
+    public void OpenConfigMenu()
+    {
+        Debug.Log("Config menu opened!");
+    }
+
+    public void OpenSaveMenu()
+    {
+        Debug.Log("save menu opened!");
+    }
+}  

@@ -170,6 +170,7 @@ using TMPro;
                     parent.sizeDelta = new Vector2(46f, 96f);                 
                     textSpacingY = 11.5f;
                     DisplayText(parent);
+                    data.isMenuSortable = false;
                     DrawCursor(parent);
                     i = 99;
         
@@ -214,11 +215,12 @@ using TMPro;
 
         void DrawCursor(RectTransform parent)
         {
+            //Set the cursor's transform to the proper parent
             GameObject cursorInstance = Instantiate(cursor, transform);
             cursorInstance.name = "Cursor";
             cursorInstance.transform.SetParent(parent.transform);
-
             
+            #region Local vars
             string childName = "TextInstance_0";
             Transform textInstanceTransform = GameObject.Find(childName).transform;
             RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
@@ -227,24 +229,10 @@ using TMPro;
             float xPos = rectTransform.sizeDelta.x * 0.5f;
             float yPos = rectTransform.sizeDelta.y * 0.5f;
             RectTransform cursorTransform = cursorInstance.GetComponent<RectTransform>();
-            cursorTransform.anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
-
-            #region old code that worked at the time
-            /*
-            GameObject cursorInstance = Instantiate(cursor, transform);
-            cursorInstance.name = "Cursor";
-            cursorInstance.transform.SetParent(parent.transform);
-            Vector2 position = GameObject.Find("TextInstance_0").GetComponent<RectTransform>().anchoredPosition;
-            cursorInstance.GetComponent<RectTransform>().anchoredPosition = position;
-            */
             #endregion
             
-            /*string childName = "TextInstance_" + index.ToString();
-
-            Transform textInstanceTransform = GameObject.Find(childName).transform;
-            RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
-            float newY = rectTransform.anchoredPosition.y;
-            GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, newY, 0f);*/
+            //set the cursor position to the item list's position.
+            cursorTransform.anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
         }
 
         public void ScrollMenu(bool scrollDown, int trueIndex)
@@ -322,5 +310,40 @@ using TMPro;
                 int hours = Mathf.FloorToInt(timeInSeconds / 3600);
                 return string.Format("{0:00}:{1:00}", hours, minutes);
             }
+        }
+
+        public void MenuSelect(int index)
+        {
+
+            switch(index)
+            {
+                case 0:
+                    menu.OpenItemsMenu();
+                    break;
+                case 1:
+                    menu.OpenSkillsMenu();
+                    break;
+                case 2:
+                    menu.OpenEquipMenu();
+                    break;
+                case 3:
+                    menu.OpenRelicMenu();
+                    break;
+                case 4:
+                    menu.OpenStatusMenu();
+                    break;
+                case 5:
+                    menu.OpenTrackMenu();
+                    break;
+                case 6:
+                    menu.OpenConfigMenu();
+                    break;
+                case 7:
+                    menu.OpenSaveMenu();
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
