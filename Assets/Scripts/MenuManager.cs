@@ -170,6 +170,7 @@ using TMPro;
             RectTransform menuRectTransform;
             Image menuImage;
             Transform gradientChild;
+            Transform timerChild;
             RectTransform parent;
 
             switch(menuType)
@@ -178,7 +179,6 @@ using TMPro;
                 #region case 0 (right corner)
                 case 0: //rtCorner
 
-                    Instantiate(menuObject, transform);
                     menuObjectInstance = Instantiate(menuObject, transform);
                     Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
                     if(rtCorner == null) Debug.Log("RtCorner not found!");
@@ -201,6 +201,12 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
+                    timerChild = menuObjectInstance.transform.Find("TimerText");
+                    if (timerChild != null)
+                    {
+                        Destroy(timerChild.gameObject);
+                    }
+
                     DrawSubMenu(1);
                     break;
                 #endregion
@@ -235,6 +241,12 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
+                    timerChild = menuObjectInstance.transform.Find("TimerText");
+                    if (timerChild != null)
+                    {
+                        Destroy(timerChild.gameObject);
+                    }
+
                     parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
                     
                     RectTransform rtPanelRT = rtPanel.GetComponent<RectTransform>();
@@ -275,6 +287,12 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
+                    timerChild = menuObjectInstance.transform.Find("TimerText");
+                    if (timerChild != null)
+                    {
+                        Destroy(timerChild.gameObject);
+                    }
+
                     DrawSubMenu(3);
                     break;
                 #endregion
@@ -308,6 +326,12 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
+                    timerChild = menuObjectInstance.transform.Find("TimerText");
+                    if (timerChild != null)
+                    {
+                        Destroy(timerChild.gameObject);
+                    }
+
                     parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
                     
                     RectTransform itemTPanelRT = itemTPanel.GetComponent<RectTransform>();
