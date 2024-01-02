@@ -43,7 +43,7 @@ using TMPro;
         //-------------------------------------------------------------
         void Start()
         {
-            DrawSubMenu();
+            DrawSubMenu(0);
             data.listLength = items.Count;
         }
 
@@ -121,35 +121,74 @@ using TMPro;
             }
         */}
 
-        void DrawSubMenu()
+        void DrawSubMenu(int menuType)
         {
-            for(int i = 0; i<2; i++)
+            GameObject menuObjectInstance; //= Instantiate(menuObject, transform); // Set the current script's GameObject as the parent
+            #region old code that used to work
+            //Transform rtPanel = menuObjectInstance.transform.Find("RtPanel");
+            //if(rtPanel == null) Debug.Log("RtPanel not found!");
+            //Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
+            //if(rtCorner == null) Debug.Log("RtCorner not found!");
+
+            //Vector3 rtPanelPosition = rtPanel.GetComponent<RectTransform>().anchoredPosition;
+            //Vector3 rtCornerPosition = rtCorner.GetComponent<RectTransform>().anchoredPosition;
+            //Vector2 rtPanelSize = rtPanel.GetComponent<RectTransform>().sizeDelta;
+            //Vector2 rtCornerSize = rtCorner.GetComponent<RectTransform>().sizeDelta;
+            #endregion
+            RectTransform menuRectTransform;
+            Image menuImage;
+            Transform gradientChild;
+
+            switch(menuType)
             {
-                GameObject menuObjectInstance = Instantiate(menuObject, transform); // Set the current script's GameObject as the parent
-                Transform rtPanel = menuObjectInstance.transform.Find("RtPanel");
-                if(rtPanel == null) Debug.Log("RtPanel not found!");
-                Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
-                if(rtCorner == null) Debug.Log("RtCorner not found!");
+                //MenuType 0 = main menu 0-1
+                #region case 0 (right corner)
+                case 0: //rtCorner
+                    
+                    menuObjectInstance = Instantiate(menuObject, transform);
+                    Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
+                    if(rtCorner == null) Debug.Log("RtCorner not found!");
+                    Vector3 rtCornerPosition = rtCorner.GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 rtCornerSize = rtCorner.GetComponent<RectTransform>().sizeDelta;
+                    
+                    menuObjectInstance.name = "rtCorner";
 
-                Vector3 rtPanelPosition = rtPanel.GetComponent<RectTransform>().anchoredPosition;
-                Vector3 rtCornerPosition = rtCorner.GetComponent<RectTransform>().anchoredPosition;
-                Vector2 rtPanelSize = rtPanel.GetComponent<RectTransform>().sizeDelta;
-                Vector2 rtCornerSize = rtCorner.GetComponent<RectTransform>().sizeDelta;
+                    menuImage = menuObjectInstance.GetComponent<Image>();
+                    if (menuImage != null) menuImage.sprite = subMenuImage;
 
-                if(i==1)
-                { 
+                    menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
+                    if (menuRectTransform != null)
+                    {
+                        menuRectTransform.anchoredPosition = rtCornerPosition;
+                        menuRectTransform.sizeDelta = rtCornerSize;
+                    }
+                    gradientChild = menuObjectInstance.transform.Find("Gradient");
+                    if (gradientChild != null)
+                    {
+                        Destroy(gradientChild.gameObject);
+                    }
+                    DrawSubMenu(1);
+                    break;
+                #endregion
+
+                #region case 1 (right panel)
+                case 1:
+                    menuObjectInstance = Instantiate(menuObject, transform);
+                    Transform rtPanel = menuObjectInstance.transform.Find("RtPanel");
+                    if(rtPanel == null) Debug.Log("RtPanel not found!");
+                    Vector3 rtPanelPosition = rtPanel.GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 rtPanelSize = rtPanel.GetComponent<RectTransform>().sizeDelta;
+
                     menuObjectInstance.name = "rtPanel";
 
-
-                    // Replace the image component with your desired sprite
-                    Image menuImage = menuObjectInstance.GetComponent<Image>();
+                    menuImage = menuObjectInstance.GetComponent<Image>();
                     if (menuImage != null)
                     {
                         menuImage.sprite = subMenuImage;
                     }
 
                     //setting the size of the instantiated menu
-                    RectTransform menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
+                    menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
                     if (menuRectTransform != null)
                     {
                         menuRectTransform.anchoredPosition = rtPanelPosition;
@@ -157,7 +196,7 @@ using TMPro;
                     }
                     
                     //Whether to get rid of the gradient
-                    Transform gradientChild = menuObjectInstance.transform.Find("Gradient");
+                    gradientChild = menuObjectInstance.transform.Find("Gradient");
                     if (gradientChild != null)
                     {
                         Destroy(gradientChild.gameObject);
@@ -172,44 +211,14 @@ using TMPro;
                     DisplayText(parent);
                     data.isMenuSortable = false;
                     DrawCursor(parent);
-                    i = 99;
-        
-                }
-                else if(i==0)
-                {   
-                    /*GameObject destroy = GameObject.Find("RtCorner");
-                    GameObject old = destroy;
-                    Destroy(old);*/
-                    
-                    menuObjectInstance.name = "rtCorner";
-
-                    Image menuImage = menuObjectInstance.GetComponent<Image>();
-                    if (menuImage != null)
-                    {
-                        menuImage.sprite = subMenuImage;
-                    }
-
-                    RectTransform menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
-                    if (menuRectTransform != null)
-                    {
-                        menuRectTransform.anchoredPosition = rtCornerPosition;
-                        menuRectTransform.sizeDelta = rtCornerSize;
-                    }
-                    Transform gradientChild = menuObjectInstance.transform.Find("Gradient");
-                    if (gradientChild != null)
-                    {
-                        Destroy(gradientChild.gameObject);
-                    }
-
-                }
-                else
-                {
-                    Debug.Log("i = "+i);
-                    continue;
-
-                }        
-
+                    break;
+                #endregion
+                //MenuType 2 = items menu 2-5
                 
+                default :
+                Debug.Log("Menu Type out of range at = "+ menuType);
+                break;
+
             }
         }
 

@@ -271,6 +271,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Confirm
         m_Flags: 0
+      - m_Name: 
+        m_Id: 2118fddb-be9c-4df6-a960-74ad34803f0b
+        m_Path: <Gamepad>/buttonEast
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Confirm
+        m_Flags: 0
       m_Flags: 0
     cancel:
       m_Name: Cancel
@@ -288,6 +296,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Cancel
         m_Flags: 0
+      - m_Name: 
+        m_Id: 1de0afa9-4ebe-43b9-a4a0-ceac329b6702
+        m_Path: <Gamepad>/buttonSouth
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Cancel
+        m_Flags: 0
       m_Flags: 0
     menu:
       m_Name: Menu
@@ -300,6 +316,14 @@ MonoBehaviour:
       - m_Name: 
         m_Id: 6720a868-4657-494b-8ff4-efecc3fb3787
         m_Path: <Keyboard>/tab
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Menu
+        m_Flags: 0
+      - m_Name: 
+        m_Id: e4f1a113-8231-46e8-8d3b-ffc70e528b81
+        m_Path: <Gamepad>/buttonNorth
         m_Interactions: 
         m_Processors: 
         m_Groups: 
@@ -338,6 +362,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Horizontal Axis
         m_Flags: 8
+      - m_Name: 
+        m_Id: 8a309a59-cced-4dfe-b9e8-e309ba4034fa
+        m_Path: <Gamepad>/dpad/x
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Horizontal Axis
+        m_Flags: 0
       m_Flags: 0
     verticalAxis:
       m_Name: Vertical Axis
@@ -371,6 +403,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Vertical Axis
         m_Flags: 8
+      - m_Name: 
+        m_Id: f7c80ae0-45d4-4659-b582-4fb60252d2e5
+        m_Path: <Gamepad>/dpad/y
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Vertical Axis
+        m_Flags: 0
       m_Flags: 0
 --- !u!4 &793227949
 Transform:
@@ -686,6 +726,10 @@ PrefabInstance:
     - target: {fileID: 2345562149211955992, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367371424251936333, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 3213430285270902850, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: m_text
