@@ -217,8 +217,34 @@ using TMPro;
             GameObject cursorInstance = Instantiate(cursor, transform);
             cursorInstance.name = "Cursor";
             cursorInstance.transform.SetParent(parent.transform);
+
+            
+            string childName = "TextInstance_0";
+            Transform textInstanceTransform = GameObject.Find(childName).transform;
+            RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
+            float newY = rectTransform.anchoredPosition.y;
+            float newX = rectTransform.anchoredPosition.x;
+            float xPos = rectTransform.sizeDelta.x * 0.5f;
+            float yPos = rectTransform.sizeDelta.y * 0.5f;
+            RectTransform cursorTransform = cursorInstance.GetComponent<RectTransform>();
+            cursorTransform.anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
+
+            #region old code that worked at the time
+            /*
+            GameObject cursorInstance = Instantiate(cursor, transform);
+            cursorInstance.name = "Cursor";
+            cursorInstance.transform.SetParent(parent.transform);
             Vector2 position = GameObject.Find("TextInstance_0").GetComponent<RectTransform>().anchoredPosition;
             cursorInstance.GetComponent<RectTransform>().anchoredPosition = position;
+            */
+            #endregion
+            
+            /*string childName = "TextInstance_" + index.ToString();
+
+            Transform textInstanceTransform = GameObject.Find(childName).transform;
+            RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
+            float newY = rectTransform.anchoredPosition.y;
+            GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, newY, 0f);*/
         }
 
         public void ScrollMenu(bool scrollDown, int trueIndex)

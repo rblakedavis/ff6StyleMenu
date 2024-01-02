@@ -134,7 +134,10 @@ public class CursorController : MonoBehaviour
         Transform textInstanceTransform = GameObject.Find(childName).transform;
         RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
         float newY = rectTransform.anchoredPosition.y;
-        GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, newY, 0f);
+        float newX = rectTransform.anchoredPosition.x;
+        float xPos = rectTransform.sizeDelta.x * 0.5f;
+        float yPos = rectTransform.sizeDelta.y * 0.5f;
+        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
     }
 
     void SelectItem(int index)
