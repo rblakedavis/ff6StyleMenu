@@ -20,6 +20,7 @@ using TMPro;
         [SerializeField] public List<string> items = new List<string>();
 
         [SerializeField] private float textSpacingY;
+        [SerializeField] private float textSpacingX;
         
         [SerializeField] private Menu menu;
 
@@ -90,6 +91,37 @@ using TMPro;
             DisplayQuant();
         }
 
+        void DisplayTextX(RectTransform parent)
+        {
+            int writeArea = Mathf.RoundToInt((parent.sizeDelta.x - 6f) / textSpacingX);
+            data.writeArea = writeArea;
+            float xPos = parent.sizeDelta.x * 0.5f;
+            float yPos = (parent.sizeDelta.y * 0.5f) - 12f;
+
+            itemNames.Clear();
+            for(int i = 0; i<writeArea; i++)
+            {
+                if(i >= items.Count) continue;
+                GameObject textInstance = Instantiate(textElement);
+
+                textInstance.name = "TextInstance_" + i.ToString();
+
+                textInstance.transform.SetParent(parent);
+
+
+                Vector3 position = new Vector3(xPos, yPos + (-i * textSpacingY), 0f);
+                textInstance.GetComponent<RectTransform>().anchoredPosition = position;
+                TextMeshProUGUI itemText = textInstance.GetComponent<TextMeshProUGUI>();
+                itemText.text = items[i];
+                itemNames.Add(items[i]);
+                itemInstance.Add(textInstance);
+
+            }
+            data.writeArea = itemInstance.Count;
+            DisplayQuant();
+
+        }
+
         void DisplayQuant()
         {/*
             
@@ -138,13 +170,15 @@ using TMPro;
             RectTransform menuRectTransform;
             Image menuImage;
             Transform gradientChild;
+            RectTransform parent;
 
             switch(menuType)
             {
                 //MenuType 0 = main menu 0-1
                 #region case 0 (right corner)
                 case 0: //rtCorner
-                    
+
+                    Instantiate(menuObject, transform);
                     menuObjectInstance = Instantiate(menuObject, transform);
                     Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
                     if(rtCorner == null) Debug.Log("RtCorner not found!");
@@ -201,7 +235,7 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
-                    RectTransform parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
+                    parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
                     
                     RectTransform rtPanelRT = rtPanel.GetComponent<RectTransform>();
 
@@ -214,7 +248,76 @@ using TMPro;
                     break;
                 #endregion
                 //MenuType 2 = items menu 2-5
-                
+                #region case 2 (small menu says "items")
+                case 2:
+                    menuObjectInstance = Instantiate(menuObject, transform);
+                    Transform itemLCorner = menuObjectInstance.transform.Find("ItemLCorner");
+                    if(itemLCorner == null) Debug.Log("ItemLCorner not found");
+                    Vector3 itemLCornerPosition = itemLCorner.GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 itemLCornerSize = itemLCorner.GetComponent<RectTransform>().sizeDelta;
+
+                    menuObjectInstance.name = "itemLCorner";
+
+                    menuImage = menuObjectInstance.GetComponent<Image>();
+                    if (menuImage != null)
+                    {
+                        menuImage.sprite = subMenuImage;
+                    }
+
+                    menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
+                    if (menuRectTransform != null)
+                    {
+                        menuRectTransform.anchoredPosition = itemLCornerPosition;
+                        menuRectTransform.sizeDelta = itemLCornerSize;
+                    }
+                    gradientChild = menuObjectInstance.transform.Find("Gradient");
+                    if (gradientChild != null)
+                    {
+                        Destroy(gradientChild.gameObject);
+                    }
+                    DrawSubMenu(3);
+                    break;
+                #endregion
+                #region case 3 (use / arrange / rare)
+                case 3:
+                    menuObjectInstance = Instantiate(menuObject, transform);
+                    Transform itemTPanel = menuObjectInstance.transform.Find("ItemTPanel");
+                    if(itemTPanel == null) Debug.Log("ItemTPanel not found!");
+                    Vector3 itemTPanelPosition = itemTPanel.GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 itemTPanelSize = itemTPanel.GetComponent<RectTransform>().sizeDelta;
+
+                    menuObjectInstance.name = "itemTPanel";
+
+                    menuImage = menuObjectInstance.GetComponent<Image>();
+                    if (menuImage != null)
+                    {
+                        menuImage.sprite = subMenuImage;
+                    }
+
+                    //setting the size of the instantiated menu
+                    menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
+                    if (menuRectTransform != null)
+                    {
+                        menuRectTransform.anchoredPosition = itemTPanelPosition;
+                        menuRectTransform.sizeDelta = itemTPanelSize;
+                    }
+                    
+                    //Whether to get rid of the gradient
+                    gradientChild = menuObjectInstance.transform.Find("Gradient");
+                    if (gradientChild != null)
+                    {
+                        Destroy(gradientChild.gameObject);
+                    }
+                    parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
+                    
+                    RectTransform itemTPanelRT = itemTPanel.GetComponent<RectTransform>();
+
+                    parent.anchoredPosition = new Vector2(0f, 0f);
+                    parent.sizeDelta = new Vector2(216f, 28f);                 
+                    DisplayTextX(parent);
+                    DrawSubMenu(4);
+                    break;
+                #endregion
                 default :
                 Debug.Log("Menu Type out of range at = "+ menuType);
                 break;
@@ -327,7 +430,7 @@ using TMPro;
             switch(index)
             {
                 case 0:
-                    menu.OpenItemsMenu();
+                    DrawSubMenu(2);
                     break;
                 case 1:
                     menu.OpenSkillsMenu();
