@@ -78,18 +78,18 @@ MonoBehaviour:
     m_LineHeight: 8
     m_AscentLine: 6
     m_CapLine: 6
-    m_MeanLine: 5
+    m_MeanLine: 6
     m_Baseline: 0
-    m_DescentLine: -2
-    m_SuperscriptOffset: 6
-    m_SuperscriptSize: 0.5
-    m_SubscriptOffset: -2
+    m_DescentLine: -29.85
+    m_SuperscriptOffset: 8.19
+    m_SuperscriptSize: 3.39
+    m_SubscriptOffset: -1.26
     m_SubscriptSize: 0.5
-    m_UnderlineOffset: 0.6015625
-    m_UnderlineThickness: 0.3984375
-    m_StrikethroughOffset: 2
+    m_UnderlineOffset: 4.65
+    m_UnderlineThickness: 1.52
+    m_StrikethroughOffset: 3.16
     m_StrikethroughThickness: 0.3984375
-    m_TabWidth: 7
+    m_TabWidth: 11.72
   m_GlyphTable:
   - m_Index: 1
     m_Metrics:
@@ -920,7 +920,7 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 6
       m_Height: 6
-      m_HorizontalBearingX: 0
+      m_HorizontalBearingX: -1
       m_HorizontalBearingY: 5
       m_HorizontalAdvance: 7
     m_GlyphRect:
@@ -1085,9 +1085,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 3
       m_Height: 7
-      m_HorizontalBearingX: 1
+      m_HorizontalBearingX: 2
       m_HorizontalBearingY: 6
-      m_HorizontalAdvance: 5
+      m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 53
       m_Y: 411
@@ -1132,7 +1132,7 @@ MonoBehaviour:
       m_Height: 6
       m_HorizontalBearingX: 0
       m_HorizontalBearingY: 5
-      m_HorizontalAdvance: 7
+      m_HorizontalAdvance: 6
     m_GlyphRect:
       m_X: 93
       m_Y: 478
@@ -1205,7 +1205,7 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 6
       m_Height: 7
-      m_HorizontalBearingX: 0
+      m_HorizontalBearingX: -0.5
       m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
@@ -1235,9 +1235,9 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 6
       m_Height: 6
-      m_HorizontalBearingX: 0
+      m_HorizontalBearingX: -1
       m_HorizontalBearingY: 5
-      m_HorizontalAdvance: 7
+      m_HorizontalAdvance: 6.5
     m_GlyphRect:
       m_X: 95
       m_Y: 387
@@ -1428,16 +1428,16 @@ MonoBehaviour:
     m_ClassDefinitionType: 0
   - m_Index: 90
     m_Metrics:
-      m_Width: 2
-      m_Height: 2
-      m_HorizontalBearingX: 1
-      m_HorizontalBearingY: 5
-      m_HorizontalAdvance: 4
+      m_Width: 8
+      m_Height: 8
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 5.82
+      m_HorizontalAdvance: 8
     m_GlyphRect:
       m_X: 177
-      m_Y: 470
-      m_Width: 2
-      m_Height: 2
+      m_Y: 464
+      m_Width: 8
+      m_Height: 8
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
@@ -1784,6 +1784,10 @@ MonoBehaviour:
     m_GlyphIndex: 29
     m_Scale: 1
   - m_ElementType: 1
+    m_Unicode: 64
+    m_GlyphIndex: 102
+    m_Scale: 1
+  - m_ElementType: 1
     m_Unicode: 65
     m_GlyphIndex: 30
     m_Scale: 1
@@ -2070,10 +2074,6 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 9733
     m_GlyphIndex: 101
-    m_Scale: 1
-  - m_ElementType: 1
-    m_Unicode: 9877
-    m_GlyphIndex: 102
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 9882
@@ -2701,7 +2701,22 @@ MonoBehaviour:
   m_KerningTable:
     kerningPairs: []
   m_FontFeatureTable:
-    m_GlyphPairAdjustmentRecords: []
+    m_GlyphPairAdjustmentRecords:
+    - m_FirstAdjustmentRecord:
+        m_GlyphIndex: 0
+        m_GlyphValueRecord:
+          m_XPlacement: 0
+          m_YPlacement: 0
+          m_XAdvance: 0
+          m_YAdvance: 0
+      m_SecondAdjustmentRecord:
+        m_GlyphIndex: 0
+        m_GlyphValueRecord:
+          m_XPlacement: 0
+          m_YPlacement: 0
+          m_XAdvance: 0
+          m_YAdvance: 0
+      m_FeatureLookupFlags: 0
   fallbackFontAssets: []
   m_FallbackFontAssetTable: []
   m_CreationSettings:
@@ -2744,7 +2759,7 @@ MonoBehaviour:
     italicTypeface: {fileID: 0}
   fontWeights: []
   normalStyle: 0
-  normalSpacingOffset: 8
+  normalSpacingOffset: 16
   boldStyle: 0.75
   boldSpacing: 7
   italicStyle: 35

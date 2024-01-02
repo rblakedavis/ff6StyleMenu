@@ -396,9 +396,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 687040125}
     m_Modifications:
     - target: {fileID: 3933915884885875923, guid: 90c91416f077ac3478a03949c140f155, type: 3}
+      propertyPath: m_text
+      value: "\u03C1Practice"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3933915884885875923, guid: 90c91416f077ac3478a03949c140f155, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bf197d90b45d97242abeec377fde224f, type: 2}
+    - target: {fileID: 3933915884885875923, guid: 90c91416f077ac3478a03949c140f155, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: -4475325040661756802, guid: 09cd63e95c6ae884babb2de8a4e99502, type: 2}
+      objectReference: {fileID: 1998980003712311606, guid: bf197d90b45d97242abeec377fde224f, type: 2}
     - target: {fileID: 3933915884885875923, guid: 90c91416f077ac3478a03949c140f155, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294966271
@@ -637,11 +645,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[5]
-      value: Config
+      value: Track
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[6]
-      value: Track
+      value: Config
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: items.Array.data[7]

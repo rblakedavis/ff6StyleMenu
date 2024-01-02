@@ -43,17 +43,7 @@ using TMPro;
         //-------------------------------------------------------------
         void Start()
         {
-            foreach (string str in items)
-            {
-                itemDict.Add(str, Random.Range(1,99));
-            }
-            foreach (var kvp in itemDict)
-            {
-                Debug.Log("Key: " +kvp.Key + ", Value: " + kvp.Value);
-            }
             DrawSubMenu();
-            //DisplayText();
-            DrawCursor();
             data.listLength = items.Count;
         }
 
@@ -70,10 +60,12 @@ using TMPro;
         #endregion
         //-------------------------------------------------------------
 
-        void DisplayText()
+        void DisplayText(RectTransform parent)
         {
-            int writeArea = Mathf.RoundToInt((textContainer.sizeDelta.y - 16f) / textSpacingY);
+            int writeArea = Mathf.RoundToInt((parent.sizeDelta.y - 6f) / textSpacingY);
             data.writeArea = writeArea;
+            float xPos = parent.sizeDelta.x * 0.5f;
+            float yPos = (parent.sizeDelta.y * 0.5f) - 12f;
 
             itemNames.Clear();
             for(int i = 0; i<writeArea; i++)
@@ -83,9 +75,10 @@ using TMPro;
 
                 textInstance.name = "TextInstance_" + i.ToString();
 
-                textInstance.transform.SetParent(textContainer);
+                textInstance.transform.SetParent(parent);
 
-                Vector3 position = new Vector3(0f, -i * textSpacingY, 0f);
+
+                Vector3 position = new Vector3(xPos, yPos + (-i * textSpacingY), 0f);
                 textInstance.GetComponent<RectTransform>().anchoredPosition = position;
                 TextMeshProUGUI itemText = textInstance.GetComponent<TextMeshProUGUI>();
                 itemText.text = items[i];
@@ -98,7 +91,7 @@ using TMPro;
         }
 
         void DisplayQuant()
-        {
+        {/*
             
             if(data.writeArea != null) 
             {
@@ -126,7 +119,7 @@ using TMPro;
                 index++;
 
             }
-        }
+        */}
 
         void DrawSubMenu()
         {
@@ -169,7 +162,16 @@ using TMPro;
                     {
                         Destroy(gradientChild.gameObject);
                     }
-                    DisplayText();
+                    RectTransform parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
+                    
+                    RectTransform rtPanelRT = rtPanel.GetComponent<RectTransform>();
+
+                    parent.anchoredPosition = new Vector2(0f, 0f);
+                    parent.sizeDelta = new Vector2(46f, 96f);                 
+                    textSpacingY = 11.5f;
+                    DisplayText(parent);
+                    DrawCursor(parent);
+                    i = 99;
         
                 }
                 else if(i==0)
@@ -210,11 +212,11 @@ using TMPro;
             }
         }
 
-        void DrawCursor()
+        void DrawCursor(RectTransform parent)
         {
             GameObject cursorInstance = Instantiate(cursor, transform);
             cursorInstance.name = "Cursor";
-            cursorInstance.transform.SetParent(GameObject.Find("CursorContainer").transform);
+            cursorInstance.transform.SetParent(parent.transform);
             Vector2 position = GameObject.Find("TextInstance_0").GetComponent<RectTransform>().anchoredPosition;
             cursorInstance.GetComponent<RectTransform>().anchoredPosition = position;
         }
