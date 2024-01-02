@@ -178,6 +178,8 @@ using TMPro;
                 //MenuType 0 = main menu 0-1
                 #region case 0 (right corner)
                 case 0: //rtCorner
+                    Transform inactiveMenu = transform.Find("Menu");
+                    inactiveMenu.gameObject.SetActive(true);
 
                     menuObjectInstance = Instantiate(menuObject, transform);
                     Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
