@@ -26,7 +26,9 @@ using TMPro;
 
         [SerializeField] private GameObject menuObject;
 
+        [SerializeField] private Sprite mainMenuImage;
         [SerializeField] private Sprite subMenuImage;
+        [SerializeField] private Sprite backMenuImage;
         [SerializeField] private Data data;
         [SerializeField] TextMeshProUGUI timerText;
         private List<GameObject> itemInstance = new List<GameObject>();
@@ -57,11 +59,15 @@ using TMPro;
                 string formattedTime = FormatTime(timeInSeconds);
                 timerText.text = "<color=#00DBDE>Time:</color>\n" + formattedTime;
             }
+            else if (rtCorner == null)
+            {
+                timerText.text = "";
+            }
         }
         #endregion
         //-------------------------------------------------------------
 
-        void DisplayText(RectTransform parent)
+        void DisplayText(RectTransform parent, List<string> contents)
         {
             int writeArea = Mathf.RoundToInt((parent.sizeDelta.y - 6f) / textSpacingY);
             data.writeArea = writeArea;
@@ -71,7 +77,7 @@ using TMPro;
             itemNames.Clear();
             for(int i = 0; i<writeArea; i++)
             {
-                if(i >= items.Count) continue;
+                if(i >= contents.Count) continue;
                 GameObject textInstance = Instantiate(textElement);
 
                 textInstance.name = "TextInstance_" + i.ToString();
@@ -82,9 +88,9 @@ using TMPro;
                 Vector3 position = new Vector3(xPos, yPos + (-i * textSpacingY), 0f);
                 textInstance.GetComponent<RectTransform>().anchoredPosition = position;
                 TextMeshProUGUI itemText = textInstance.GetComponent<TextMeshProUGUI>();
-                itemText.text = items[i];
-                itemNames.Add(items[i]);
-                itemInstance.Add(textInstance);
+                itemText.text = contents[i];
+                // itemNames.Add(items[i]);
+                // itemInstance.Add(textInstance);
 
             }
             data.writeArea = itemInstance.Count;
@@ -178,8 +184,15 @@ using TMPro;
                 //MenuType 0 = main menu 0-1
                 #region case 0 (right corner)
                 case 0: //rtCorner
+
                     Transform inactiveMenu = transform.Find("Menu");
-                    inactiveMenu.gameObject.SetActive(true);
+                    inactiveMenu.gameObject.SetActive(true);                    
+                    Image inactiveMenuImage = inactiveMenu.GetComponent<Image>();
+                    inactiveMenuImage.sprite = mainMenuImage; 
+
+
+
+                    
 
                     menuObjectInstance = Instantiate(menuObject, transform);
                     Transform rtCorner = menuObjectInstance.transform.Find("RtCorner");
@@ -188,6 +201,7 @@ using TMPro;
                     Vector2 rtCornerSize = rtCorner.GetComponent<RectTransform>().sizeDelta;
                     
                     menuObjectInstance.name = "rtCorner";
+                    menuObjectInstance.tag = "menuDestroy";
 
                     menuImage = menuObjectInstance.GetComponent<Image>();
                     if (menuImage != null) menuImage.sprite = subMenuImage;
@@ -222,6 +236,7 @@ using TMPro;
                     Vector2 rtPanelSize = rtPanel.GetComponent<RectTransform>().sizeDelta;
 
                     menuObjectInstance.name = "rtPanel";
+                    menuObjectInstance.tag = "menuDestroy";
 
                     menuImage = menuObjectInstance.GetComponent<Image>();
                     if (menuImage != null)
@@ -256,7 +271,7 @@ using TMPro;
                     parent.anchoredPosition = new Vector2(0f, 0f);
                     parent.sizeDelta = new Vector2(46f, 96f);                 
                     textSpacingY = 11.5f;
-                    DisplayText(parent);
+                    DisplayText(parent, items);
                     data.isMenuSortable = false;
                     DrawCursor(parent);
                     break;
@@ -271,6 +286,7 @@ using TMPro;
                     Vector2 itemLCornerSize = itemLCorner.GetComponent<RectTransform>().sizeDelta;
 
                     menuObjectInstance.name = "itemLCorner";
+                    menuObjectInstance.tag = "menuDestroy";
 
                     menuImage = menuObjectInstance.GetComponent<Image>();
                     if (menuImage != null)
@@ -307,6 +323,7 @@ using TMPro;
                     Vector2 itemTPanelSize = itemTPanel.GetComponent<RectTransform>().sizeDelta;
 
                     menuObjectInstance.name = "itemTPanel";
+                    menuObjectInstance.tag = "menuDestroy";
 
                     menuImage = menuObjectInstance.GetComponent<Image>();
                     if (menuImage != null)
@@ -333,6 +350,7 @@ using TMPro;
                     {
                         Destroy(timerChild.gameObject);
                     }
+          
 
                     parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
                     
@@ -341,7 +359,83 @@ using TMPro;
                     parent.anchoredPosition = new Vector2(0f, 0f);
                     parent.sizeDelta = new Vector2(216f, 28f);                 
                     DisplayTextX(parent);
+                    inactiveMenu = transform.Find("Menu");                    
+                    inactiveMenuImage = inactiveMenu.GetComponent<Image>();
+                    inactiveMenuImage.sprite = backMenuImage; 
                     DrawSubMenu(4);
+                    break;
+                #endregion
+                #region case 4 (description box)
+                case 4:
+                    menuObjectInstance = Instantiate(menuObject, transform);
+                    Transform itemMidPanel = menuObjectInstance.transform.Find("ItemMidPanel");
+                    if(itemMidPanel == null) Debug.Log("ItemMidPanel not found");
+                    Vector3 itemMidPanelPosition = itemMidPanel.GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 itemMidPanelSize = itemMidPanel.GetComponent<RectTransform>().sizeDelta;
+
+                    menuObjectInstance.name = "itemMidPanel";
+                    menuObjectInstance.tag = "menuDestroy";
+
+                    menuImage = menuObjectInstance.GetComponent<Image>();
+                    if (menuImage != null)
+                    {
+                        menuImage.sprite = subMenuImage;
+                    }
+
+                    menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
+                    if (menuRectTransform != null)
+                    {
+                        menuRectTransform.anchoredPosition = itemMidPanelPosition;
+                        menuRectTransform.sizeDelta = itemMidPanelSize;
+                    }
+                    gradientChild = menuObjectInstance.transform.Find("Gradient");
+                    if (gradientChild != null)
+                    {
+                        Destroy(gradientChild.gameObject);
+                    }
+                    timerChild = menuObjectInstance.transform.Find("TimerText");
+                    if (timerChild != null)
+                    {
+                        Destroy(timerChild.gameObject);
+                    }
+                    DrawSubMenu(5);
+
+                    break;
+                #endregion
+                #region case 5 (items window)
+                case 5:
+                    menuObjectInstance = Instantiate(menuObject, transform);
+                    Transform itemItemMenu = menuObjectInstance.transform.Find("ItemItemMenu");
+                    if(itemItemMenu == null) Debug.Log("ItemItemMenu not found");
+                    Vector3 itemItemMenuPosition = itemItemMenu.GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 itemItemMenuSize = itemItemMenu.GetComponent<RectTransform>().sizeDelta;
+
+                    menuObjectInstance.name = "itemItemMenu";
+                    menuObjectInstance.tag = "menuDestroy";
+
+                    menuImage = menuObjectInstance.GetComponent<Image>();
+                    if (menuImage != null)
+                    {
+                        menuImage.sprite = subMenuImage;
+                    }
+
+                    menuRectTransform = menuObjectInstance.GetComponent<RectTransform>();
+                    if (menuRectTransform != null)
+                    {
+                        menuRectTransform.anchoredPosition = itemItemMenuPosition;
+                        menuRectTransform.sizeDelta = itemItemMenuSize;
+                    }
+                    gradientChild = menuObjectInstance.transform.Find("Gradient");
+                    if (gradientChild != null)
+                    {
+                        Destroy(gradientChild.gameObject);
+                    }
+                    timerChild = menuObjectInstance.transform.Find("TimerText");
+                    if (timerChild != null)
+                    {
+                        Destroy(timerChild.gameObject);
+                    }
+
                     break;
                 #endregion
                 default :
@@ -482,6 +576,19 @@ using TMPro;
                 default:
                     break;
             }
+
+        }
+    
+        public void DestroyOldMenus()
+        {
+            string tagToDestroy = "menuDestroy";
+            GameObject[] destroyOldMenus = GameObject.FindGameObjectsWithTag("menuDestroy");
+            foreach (var obj in destroyOldMenus)
+            {
+                Destroy(obj);                
+            }
+
+
 
         }
     }

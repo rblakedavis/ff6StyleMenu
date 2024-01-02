@@ -235,6 +235,7 @@ public class CursorController : MonoBehaviour
         {   
             Debug.Log("True Index is " +trueIndex);
             MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
+            menuManager.DestroyOldMenus();
             menuManager.MenuSelect(trueIndex);
         }
     }

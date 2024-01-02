@@ -697,6 +697,14 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
+      propertyPath: backMenuImage
+      value: 
+      objectReference: {fileID: 21300000, guid: d47ed51ad9be60542bc6b6f82318d204, type: 3}
+    - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
+      propertyPath: mainMenuImage
+      value: 
+      objectReference: {fileID: 21300000, guid: e17846f8163bcde45aa78542e3a188e8, type: 3}
+    - target: {fileID: 2245531896646359105, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: quantContainer
       value: 
       objectReference: {fileID: 395509559}
@@ -766,7 +774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2345562149211955992, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2367371424251936333, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: m_SizeDelta.y
@@ -786,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3459812827644110167, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3627559760773274870, guid: 345f9158d8137704bb229f1d31c26cb0, type: 3}
       propertyPath: m_Name
