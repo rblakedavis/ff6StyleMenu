@@ -71,6 +71,11 @@ using TMPro;
         {
             int writeArea = Mathf.RoundToInt((parent.sizeDelta.y - 6f) / textSpacingY);
             data.writeArea = writeArea;
+            if (writeArea < 1)
+            {
+                writeArea = 1;
+            }
+            Debug.Log("Write Area is "+ writeArea);
             float xPos = parent.sizeDelta.x * 0.5f;
             float yPos = (parent.sizeDelta.y * 0.5f) - 12f;
 
@@ -89,8 +94,8 @@ using TMPro;
                 textInstance.GetComponent<RectTransform>().anchoredPosition = position;
                 TextMeshProUGUI itemText = textInstance.GetComponent<TextMeshProUGUI>();
                 itemText.text = contents[i];
-                // itemNames.Add(items[i]);
-                // itemInstance.Add(textInstance);
+                itemNames.Add(contents[i]);
+                itemInstance.Add(textInstance);
 
             }
             data.writeArea = itemInstance.Count;
@@ -279,6 +284,7 @@ using TMPro;
                 //MenuType 2 = items menu 2-5
                 #region case 2 (small menu says "items")
                 case 2:
+                    DestroyOldMenus();
                     menuObjectInstance = Instantiate(menuObject, transform);
                     Transform itemLCorner = menuObjectInstance.transform.Find("ItemLCorner");
                     if(itemLCorner == null) Debug.Log("ItemLCorner not found");

@@ -32,7 +32,9 @@ public class CursorController : MonoBehaviour
     void Awake()
     {
         writeArea = data.writeArea;
+        //Debug.Log("write area is "+writeArea);
         maxIndex = data.maxIndex;
+        //Debug.Log("max index is " +maxIndex);
     }
 
     void Update()
@@ -235,7 +237,6 @@ public class CursorController : MonoBehaviour
         {   
             Debug.Log("True Index is " +trueIndex);
             MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
-            menuManager.DestroyOldMenus();
             menuManager.MenuSelect(trueIndex);
         }
     }
