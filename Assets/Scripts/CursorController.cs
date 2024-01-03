@@ -35,6 +35,7 @@ public class CursorController : MonoBehaviour
         //Debug.Log("write area is "+writeArea);
         maxIndex = data.maxIndex;
         //Debug.Log("max index is " +maxIndex);
+        SnapToItem(0);
     }
 
     void Update()
@@ -146,7 +147,7 @@ public class CursorController : MonoBehaviour
         Debug.Log("yPos is "+ yPos);
         float oldYPos = rectTransform.sizeDelta.y * 0.5f;
         Debug.Log("oldYPos is " + yPos);
-        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY-oldYPos, 0f);
+        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY+oldYPos, 0f);
     }
 
     void SelectItem(int index)

@@ -36,6 +36,7 @@ using TMPro;
         private int currentItemIndex = 0;
 
         Dictionary<string, int> itemDict = new Dictionary<string, int>();
+
     
 
 
@@ -297,6 +298,7 @@ using TMPro;
                     parent.anchoredPosition = new Vector2(0f, 0f);
                     parent.sizeDelta = new Vector2(46f, 96f);                 
                     textSpacingY = 11.5f;
+                    data.content = items;
                     DisplayText(parent, items, 0.5f);
                     data.isMenuSortable = false;
                     DrawCursor(parent);
@@ -484,6 +486,7 @@ using TMPro;
                     textSpacingY = 11.5f;
 
                     DisplayText(parent, data.inventory, 0.5f);
+                    data.content = data.inventory;
                     data.isMenuSortable = true;
                     DrawCursor(parent);
                     Debug.Log("parent rt is " + parent.rect);
@@ -522,8 +525,10 @@ using TMPro;
             cursorTransform.anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
         }
 
-        public void ScrollMenu(bool scrollDown, int trueIndex)
-        {           
+        public void ScrollMenu(bool scrollDown, int trueIndex, List<string> content = null)
+        {   
+            if( content == null )content = data.content;        
+
             if(scrollDown)currentItemIndex = trueIndex - data.writeArea; 
             if(!scrollDown)currentItemIndex = trueIndex + 1;
             int scrollDirection = scrollDown ? 1 : -1;
@@ -540,19 +545,20 @@ using TMPro;
 
             currentItemIndex = newIndex;
 
-            UpdateMenuDisplay();
+            UpdateMenuDisplay(content);
         }
-        private void UpdateMenuDisplay()
+        private void UpdateMenuDisplay(List<string> content = null)
         {
+            if( content == null ) content = data.content;
             itemNames.Clear();
             for (int i = 0; i < data.writeArea; i++)
             {
                 int itemIndex = currentItemIndex + i;
-                if (itemIndex < items.Count)
+                if (itemIndex < content.Count)
                 {
                     TextMeshProUGUI itemText = itemInstance[i].GetComponent<TextMeshProUGUI>();
-                    itemText.text = items[itemIndex];
-                    itemNames.Add(items[itemIndex]);
+                    itemText.text = content[itemIndex];
+                    itemNames.Add(content[itemIndex]);
 
                 }
                 else
@@ -562,23 +568,24 @@ using TMPro;
                     itemText.text = "";
                 }
             }
-            GameObject quantList = GameObject.Find("QuantContainer");
+            /*GameObject quantList = GameObject.Find("QuantContainer");
             foreach (Transform child in quantList.transform)
             {
                 Destroy(child.gameObject);
             }
-            DisplayQuant();
+            DisplayQuant();*/
         }
 
-        public void SwapItems(int index1, int index2, int offset)
+        public void SwapItems(int index1, int index2, int offset, List<string> content = null)
         {
-            if (index1 >= 0 && index1 < items.Count && index2 >= 0 && index2 < items.Count)
+            if(content == null) content = data.content;
+            if (index1 >= 0 && index1 < content.Count && index2 >= 0 && index2 < content.Count)
             {
-                string temp = items[index1];
-                items[index1] = items[index2];
-                items[index2] = temp;
+                string temp = content[index1];
+                content[index1] = content[index2];
+                content[index2] = temp;
                 currentItemIndex = index2 - offset;
-                UpdateMenuDisplay();
+                UpdateMenuDisplay(content);
             }
 
         }

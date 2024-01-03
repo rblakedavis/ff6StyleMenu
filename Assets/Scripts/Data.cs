@@ -12,4 +12,7 @@ public class Data : ScriptableObject
     public List<string> topLeftCorner;
     public List<string> itemsMidPanel;
     public List<string> inventory;
+
+    public List<string> content;
+
 }
