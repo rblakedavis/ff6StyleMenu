@@ -246,7 +246,7 @@ public class CursorController : MonoBehaviour
 
             }
         }
-        else
+        else if (data.menuPrefix == "main")
         {   
             Debug.Log("True Index is " +trueIndex);
             MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
