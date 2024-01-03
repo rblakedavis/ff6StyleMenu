@@ -517,7 +517,7 @@ using TMPro;
             cursorInstance.transform.SetParent(parent.transform);
             
             #region Local vars
-            string childName = "TextInstance_0";
+            string childName = data.menuPrefix + "TextInstance_0";
             Transform textInstanceTransform = GameObject.Find(childName).transform;
             RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
             float newY = rectTransform.anchoredPosition.y;
