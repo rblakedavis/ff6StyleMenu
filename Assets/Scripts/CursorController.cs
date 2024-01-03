@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -227,7 +228,7 @@ public class CursorController : MonoBehaviour
 
                     cursorClone = Instantiate(cursorPrefab, transform.position + new Vector3(6f, 5f, 0f), Quaternion.identity);
                     cursorClone.name = "GhostCursor";
-                    cursorClone.transform.SetParent(GameObject.Find("CursorContainer").transform);
+                    cursorClone.transform.SetParent(GameObject.Find("TextContainer").transform);
                     SetSortingOrder(cursorClone, GetSortingOrder() -2);
                     timeSinceLastSelect = 0f;
                     selectedIndex = currentIndex;
@@ -256,33 +257,33 @@ public class CursorController : MonoBehaviour
     
     void CancelSelection()
     {
-        if(Time.time - timeSinceLastSelect > selectDelay)
+        if(isItemSelected && Time.time - timeSinceLastSelect > selectDelay) 
         {
-            if(isItemSelected) isItemSelected = false;
+            isItemSelected = false;
             if (cursorClone != null) Destroy(cursorClone);
             timeSinceLastSelect = 0f;
-
-            if(!isItemSelected)
-            {
-                MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
-                switch(data.menuPrefix)
-                {
-                    case "main":
-                        break;
-                    case "itemsMenu":
-                        data.menuPrefix = "itemsSupMenu";
-                        SnapToItem(0);
-                        break;
-                    case "itemsSupMenu":
-                        data.menuPrefix = "main";
-                        menuManager.MenuSelect(20);
-                        SnapToItem(0);
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
+        else if(!isItemSelected && Time.time - timeSinceLastMove > selectDelay)
+        {
+            MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
+            switch(data.menuPrefix)
+            {
+                case "main":
+                    break;
+                case "itemsMenu":
+                    EnterItemsSuperMenu();
+                    break;
+                case "itemsSupMenu":
+                    data.menuPrefix = "main";
+                    menuManager.MenuSelect(20);
+                    SnapToItem(0);
+                    break;
+                default:
+                    break;
+            }
+            timeSinceLastSelect = 0f;
+        }
+    
 
     }
 #endregion
@@ -290,17 +291,36 @@ public class CursorController : MonoBehaviour
 
 
     IEnumerator DelayedInitialization()
-{
-    yield return null; // Wait for the next frame
+    {
+        yield return null; // Wait for the next frame
 
-    writeArea = data.writeArea;
-    // Debug.Log("write area is " + writeArea);
+        writeArea = data.writeArea;
+        // Debug.Log("write area is " + writeArea);
 
-    maxIndex = data.maxIndex;
-    // Debug.Log("max index is " + maxIndex);
+        maxIndex = data.maxIndex;
+        // Debug.Log("max index is " + maxIndex);
 
-    SnapToItem(0);
-}
+        SnapToItem(0);
+    }
+
+    void EnterItemsSuperMenu()
+    {
+        data.menuPrefix = "itemsSupMenu";
+        data.cursorBehavior = "xAxis";
+        Transform newGParent = GameObject.Find("itemTPanel").transform;
+        Transform newParent = newGParent.Find("TextContainer");
+        List<Transform> list = new List<Transform>();
+        foreach (Transform child in newParent)list.Add(child);
+        Debug.Log("list coutn is " + list.Count);
+        transform.SetParent(newParent, false);
+        writeArea = list.Count;
+        maxIndex = list.Count;
+        data.listLength = list.Count;
+        data.isMenuSortable = false;
+        SnapToItem(0);
+        trueIndex = 0;
+        currentIndex = 0;
+    }
 }
 
 

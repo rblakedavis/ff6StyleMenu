@@ -15,5 +15,6 @@ public class Data : ScriptableObject
 
     public List<string> content;
     public string menuPrefix;
+    public string cursorBehavior;
 
 }
