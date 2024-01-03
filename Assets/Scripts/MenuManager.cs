@@ -127,7 +127,7 @@ using TMPro;
                 if(i >= contents.Count) continue;
                 GameObject textInstance = Instantiate(textElement);
 
-                textInstance.name = "TextInstance_" + i.ToString();
+                textInstance.name = data.menuPrefix + "TextInstance_" + i.ToString();
                 
 
                 textInstance.transform.SetParent(parent);
@@ -397,7 +397,8 @@ using TMPro;
                     rt = menuObjectInstance.GetComponent<RectTransform>();
 
                     parent.anchoredPosition = new Vector2(0f, 0f);
-                    parent.sizeDelta = new Vector2(0f, 0f);                 
+                    parent.sizeDelta = new Vector2(0f, 0f);         
+                    data.menuPrefix = "itemsSupMenu";
                     DisplayTextX(parent, data.itemsMidPanel, 0.5f, 3);
 
                     //disable background menu (hide really)
@@ -640,6 +641,10 @@ using TMPro;
                     break;
                 case 7:
                     menu.OpenSaveMenu();
+                    break;
+                case 20:
+                    DestroyOldMenus();
+                    DrawSubMenu(0);
                     break;
                 default:
                     break;

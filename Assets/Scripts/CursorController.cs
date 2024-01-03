@@ -256,11 +256,32 @@ public class CursorController : MonoBehaviour
     
     void CancelSelection()
     {
-        isItemSelected = false;
-
-        if (cursorClone != null)
+        if(Time.time - timeSinceLastSelect > selectDelay)
         {
-            Destroy(cursorClone);
+            if(isItemSelected) isItemSelected = false;
+            if (cursorClone != null) Destroy(cursorClone);
+            timeSinceLastSelect = 0f;
+
+            if(!isItemSelected)
+            {
+                MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
+                switch(data.menuPrefix)
+                {
+                    case "main":
+                        break;
+                    case "itemsMenu":
+                        data.menuPrefix = "itemsSupMenu";
+                        SnapToItem(0);
+                        break;
+                    case "itemsSupMenu":
+                        data.menuPrefix = "main";
+                        menuManager.MenuSelect(20);
+                        SnapToItem(0);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
     }
