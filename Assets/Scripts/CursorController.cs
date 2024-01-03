@@ -31,6 +31,7 @@ public class CursorController : MonoBehaviour
 
     void Awake()
     {
+        StartCoroutine(DelayedInitialization());
         writeArea = data.writeArea;
         //Debug.Log("write area is "+writeArea);
         maxIndex = data.maxIndex;
@@ -102,6 +103,8 @@ public class CursorController : MonoBehaviour
     void MoveCursorDown()
     {
         listLength = data.listLength;
+        Debug.Log("list length is " + listLength);
+
         if (currentIndex < writeArea - 1)
         {  
             currentIndex++;
@@ -134,8 +137,9 @@ public class CursorController : MonoBehaviour
 
     void SnapToItem(int index)
     {
+        
         // Construct the name of the desired child
-        string childName = "TextInstance_" + index.ToString();
+        string childName = data.menuPrefix + "TextInstance_" + index.ToString();
 
 
         Transform textInstanceTransform = GameObject.Find(childName).transform;
@@ -262,6 +266,20 @@ public class CursorController : MonoBehaviour
     }
 #endregion
 
+
+
+    IEnumerator DelayedInitialization()
+{
+    yield return null; // Wait for the next frame
+
+    writeArea = data.writeArea;
+    // Debug.Log("write area is " + writeArea);
+
+    maxIndex = data.maxIndex;
+    // Debug.Log("max index is " + maxIndex);
+
+    SnapToItem(0);
+}
 }
 
 

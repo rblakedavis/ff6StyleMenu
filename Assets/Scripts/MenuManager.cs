@@ -48,7 +48,6 @@ using TMPro;
         void Start()
         {
             DrawSubMenu(0);
-            data.listLength = items.Count;
         }
 
         void Update()
@@ -68,8 +67,9 @@ using TMPro;
         #endregion
         //-------------------------------------------------------------
 
-        void DisplayText(RectTransform parent, List<string> contents, float scale)
+        void DisplayText(RectTransform parent, List<string> contents, float scale, float offsetX = 0, float offsetY = 0)
         {
+            data.listLength = contents.Count;
             itemInstance.Clear();
             itemNames.Clear();
             
@@ -80,8 +80,8 @@ using TMPro;
                 writeArea = 1;
             }
             Debug.Log("Write Area is "+ writeArea);
-            float xPos = parent.sizeDelta.x * scale;
-            float yPos = (parent.sizeDelta.y * scale) - 12f;
+            float xPos = (parent.sizeDelta.x  * scale) + offsetX;
+            float yPos = (parent.sizeDelta.y * scale) - 12f + offsetY;
 
 
             for(int i = 0; i<writeArea; i++)
@@ -89,7 +89,7 @@ using TMPro;
                 if(i >= contents.Count) continue;
                 GameObject textInstance = Instantiate(textElement);
 
-                textInstance.name = "TextInstance_" + i.ToString();
+                textInstance.name = data.menuPrefix + "TextInstance_" + i.ToString();
 
                 textInstance.transform.SetParent(parent);
 
@@ -299,6 +299,7 @@ using TMPro;
                     parent.sizeDelta = new Vector2(46f, 96f);                 
                     textSpacingY = 11.5f;
                     data.content = items;
+                    data.menuPrefix = "main";
                     DisplayText(parent, items, 0.5f);
                     data.isMenuSortable = false;
                     DrawCursor(parent);
@@ -481,11 +482,16 @@ using TMPro;
                     
                     rt = menuObjectInstance.GetComponent<RectTransform>();
 
-                    parent.anchoredPosition = new Vector3 (0f, 0f, 0f);
-                    parent.sizeDelta = new Vector2 (0f, 0f);                 
+                    
+                    parent.offsetMin = new Vector2(30, 20);
+                    parent.offsetMax = new Vector2(-38, -15);
+                    //parent.anchoredPosition = new Vector3 (0f, 0f, 0f);
+                    
+                    //parent.sizeDelta = new Vector2 (-12f, -6f);                 
                     textSpacingY = 11.5f;
 
-                    DisplayText(parent, data.inventory, 0.5f);
+                    data.menuPrefix = "itemsMenu";
+                    DisplayText(parent, data.inventory, 1f, 23f, 85f);
                     data.content = data.inventory;
                     data.isMenuSortable = true;
                     DrawCursor(parent);

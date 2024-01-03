@@ -14,5 +14,6 @@ public class Data : ScriptableObject
     public List<string> inventory;
 
     public List<string> content;
+    public string menuPrefix;
 
 }
