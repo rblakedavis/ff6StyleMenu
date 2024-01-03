@@ -69,7 +69,10 @@ using TMPro;
 
         void DisplayText(RectTransform parent, List<string> contents, float scale)
         {
-            int writeArea = Mathf.RoundToInt((parent.sizeDelta.y - 6f) / textSpacingY);
+            itemInstance.Clear();
+            itemNames.Clear();
+            
+            int writeArea = Mathf.RoundToInt((parent.rect.height - 6f) / textSpacingY);
             data.writeArea = writeArea;
             if (writeArea < 1)
             {
@@ -79,7 +82,7 @@ using TMPro;
             float xPos = parent.sizeDelta.x * scale;
             float yPos = (parent.sizeDelta.y * scale) - 12f;
 
-            itemNames.Clear();
+
             for(int i = 0; i<writeArea; i++)
             {
                 if(i >= contents.Count) continue;
@@ -472,6 +475,22 @@ using TMPro;
                         Destroy(timerChild.gameObject);
                     }
 
+                    parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
+                    
+                    rt = menuObjectInstance.GetComponent<RectTransform>();
+
+                    parent.anchoredPosition = new Vector3 (0f, 0f, 0f);
+                    parent.sizeDelta = new Vector2 (0f, 0f);                 
+                    textSpacingY = 11.5f;
+
+                    DisplayText(parent, data.inventory, 0.5f);
+                    data.isMenuSortable = true;
+                    DrawCursor(parent);
+                    Debug.Log("parent rt is " + parent.rect);
+                    Debug.Log("menu rt is " + rt.rect);
+                    break;
+
+
                     break;
                 #endregion
                 default :
@@ -514,9 +533,9 @@ using TMPro;
             {
                 newIndex = 0;
             }
-            else if (newIndex >= items.Count)
+            else if (newIndex >= itemNames.Count)
             {
-                newIndex = items.Count - 1;
+                newIndex = itemNames.Count - 1;
             }
 
             currentItemIndex = newIndex;

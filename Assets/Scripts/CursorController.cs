@@ -80,6 +80,7 @@ public class CursorController : MonoBehaviour
         if (currentIndex == 0 && trueIndex !=0) //if the cursor is at the top of the list and there are more items to scroll
         {
             trueIndex--;
+            Debug.Log("moved up, true index is "+ trueIndex);
             GameObject menuContainer = GameObject.Find("MenuContainer");
             MenuManager menuManager = menuContainer.GetComponent<MenuManager>();
             menuManager.ScrollMenu(false, trueIndex);
@@ -104,6 +105,8 @@ public class CursorController : MonoBehaviour
         {  
             currentIndex++;
             trueIndex++;
+            Debug.Log("moved down, true index is "+ trueIndex);
+
             SnapToItem(currentIndex);
             timeSinceLastMove = Time.time;
 
@@ -133,13 +136,17 @@ public class CursorController : MonoBehaviour
         // Construct the name of the desired child
         string childName = "TextInstance_" + index.ToString();
 
+
         Transform textInstanceTransform = GameObject.Find(childName).transform;
         RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
         float newY = rectTransform.anchoredPosition.y;
         float newX = rectTransform.anchoredPosition.x;
         float xPos = rectTransform.sizeDelta.x * 0.5f;
-        float yPos = rectTransform.sizeDelta.y * 0.5f;
-        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
+        float yPos = Mathf.Abs(rectTransform.rect.height);
+        Debug.Log("yPos is "+ yPos);
+        float oldYPos = rectTransform.sizeDelta.y * 0.5f;
+        Debug.Log("oldYPos is " + yPos);
+        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY-oldYPos, 0f);
     }
 
     void SelectItem(int index)

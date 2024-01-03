@@ -22,3 +22,19 @@ MonoBehaviour:
   - USE
   - ARRANGE
   - RARE
+  inventory:
+  - Apples
+  - Bananas
+  - Spam
+  - Eggs
+  - Ham
+  - Turkey
+  - Rice
+  - Vinegar
+  - Soy Sauce
+  - Happy
+  - Days
+  - Are
+  - Coming
+  - To
+  - Stay
