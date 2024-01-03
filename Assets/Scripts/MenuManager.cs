@@ -67,7 +67,7 @@ using TMPro;
         #endregion
         //-------------------------------------------------------------
 
-        void DisplayText(RectTransform parent, List<string> contents)
+        void DisplayText(RectTransform parent, List<string> contents, float scale)
         {
             int writeArea = Mathf.RoundToInt((parent.sizeDelta.y - 6f) / textSpacingY);
             data.writeArea = writeArea;
@@ -76,8 +76,8 @@ using TMPro;
                 writeArea = 1;
             }
             Debug.Log("Write Area is "+ writeArea);
-            float xPos = parent.sizeDelta.x * 0.5f;
-            float yPos = (parent.sizeDelta.y * 0.5f) - 12f;
+            float xPos = parent.sizeDelta.x * scale;
+            float yPos = (parent.sizeDelta.y * scale) - 12f;
 
             itemNames.Clear();
             for(int i = 0; i<writeArea; i++)
@@ -97,35 +97,52 @@ using TMPro;
                 itemNames.Add(contents[i]);
                 itemInstance.Add(textInstance);
 
+
+
+
             }
             data.writeArea = itemInstance.Count;
             DisplayQuant();
         }
 
-        void DisplayTextX(RectTransform parent)
+        void DisplayTextX(RectTransform parent, List<string> contents, float scale, int defaultWriteArea = 0)
         {
-            int writeArea = Mathf.RoundToInt((parent.sizeDelta.x - 6f) / textSpacingX);
+            int writeArea = Mathf.RoundToInt((parent.sizeDelta.x - 6f) / 16);
+            Debug.Log("parent.SizeDelta.x is " + parent.sizeDelta.x);
+            Debug.Log("write area is " + writeArea);
             data.writeArea = writeArea;
-            float xPos = parent.sizeDelta.x * 0.5f;
-            float yPos = (parent.sizeDelta.y * 0.5f) - 12f;
+            if (writeArea<1) writeArea=1;
+            if (writeArea<defaultWriteArea) writeArea = defaultWriteArea;
+            float xPos = (parent.sizeDelta.x + 1) * scale;
+            float currentXPos = -18f;
+            float yPos = ((parent.sizeDelta.y +1) * scale) - 5f;
 
             itemNames.Clear();
             for(int i = 0; i<writeArea; i++)
             {
-                if(i >= items.Count) continue;
+                if(i >= contents.Count) continue;
                 GameObject textInstance = Instantiate(textElement);
 
                 textInstance.name = "TextInstance_" + i.ToString();
+                
 
                 textInstance.transform.SetParent(parent);
 
 
-                Vector3 position = new Vector3(xPos, yPos + (-i * textSpacingY), 0f);
-                textInstance.GetComponent<RectTransform>().anchoredPosition = position;
+                //Vector3 position = new Vector3(xPos + (i * textSpacingX), yPos, 0f);
+                //textInstance.GetComponent<RectTransform>().anchoredPosition = position;
                 TextMeshProUGUI itemText = textInstance.GetComponent<TextMeshProUGUI>();
-                itemText.text = items[i];
-                itemNames.Add(items[i]);
+                itemText.text = contents[i];
+                itemNames.Add(contents[i]);
                 itemInstance.Add(textInstance);
+
+                float textWidth = itemText.preferredWidth;
+           
+                Vector3 positionDeux = new Vector3(currentXPos, yPos, 0f);
+                textInstance.GetComponent<RectTransform>().anchoredPosition = positionDeux;
+                if(textWidth<32) textWidth=32;
+                Debug.Log("text width is "+ textWidth);
+                currentXPos += (textWidth + textSpacingX);                
 
             }
             data.writeArea = itemInstance.Count;
@@ -183,6 +200,7 @@ using TMPro;
             Transform gradientChild;
             Transform timerChild;
             RectTransform parent;
+            RectTransform rt;
 
             switch(menuType)
             {
@@ -276,7 +294,7 @@ using TMPro;
                     parent.anchoredPosition = new Vector2(0f, 0f);
                     parent.sizeDelta = new Vector2(46f, 96f);                 
                     textSpacingY = 11.5f;
-                    DisplayText(parent, items);
+                    DisplayText(parent, items, 0.5f);
                     data.isMenuSortable = false;
                     DrawCursor(parent);
                     break;
@@ -316,6 +334,16 @@ using TMPro;
                     {
                         Destroy(timerChild.gameObject);
                     }
+
+                    parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
+                    
+                    rt = menuObjectInstance.GetComponent<RectTransform>();
+
+                    parent.anchoredPosition = new Vector3 (42f, 9f, 0f);
+                    parent.sizeDelta = new Vector2 (0f, 0f);                 
+                    DisplayText(parent, data.topLeftCorner, 1);
+                    
+                    
 
                     DrawSubMenu(3);
                     break;
@@ -360,11 +388,13 @@ using TMPro;
 
                     parent = menuObjectInstance.transform.Find("TextContainer").GetComponent<RectTransform>();
                     
-                    RectTransform itemTPanelRT = itemTPanel.GetComponent<RectTransform>();
+                    rt = menuObjectInstance.GetComponent<RectTransform>();
 
                     parent.anchoredPosition = new Vector2(0f, 0f);
-                    parent.sizeDelta = new Vector2(216f, 28f);                 
-                    DisplayTextX(parent);
+                    parent.sizeDelta = new Vector2(0f, 0f);                 
+                    DisplayTextX(parent, data.itemsMidPanel, 0.5f, 3);
+
+                    //disable background menu (hide really)
                     inactiveMenu = transform.Find("Menu");                    
                     inactiveMenuImage = inactiveMenu.GetComponent<Image>();
                     inactiveMenuImage.sprite = backMenuImage; 
@@ -597,4 +627,5 @@ using TMPro;
 
 
         }
+
     }

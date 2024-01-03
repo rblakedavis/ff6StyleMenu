@@ -8,4 +8,7 @@ public class Data : ScriptableObject
     public int listLength;
     public int maxIndex;
     public bool isMenuSortable;
+
+    public List<string> topLeftCorner;
+    public List<string> itemsMidPanel;
 }

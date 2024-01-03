@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 216d2548fea4439438059d2c1dc6b98e, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  writeArea: 9
-  listLength: 15
+  writeArea: 12
+  listLength: 8
   maxIndex: 0
-  isItemSelected: 0
-  cursorClone: {fileID: 6482300556320331204, guid: dc90c43cbb56b5046999b29c425c117f, type: 3}
+  isMenuSortable: 0
+  topLeftCorner:
+  - <color=#00DBDE>Item</color>
+  itemsMidPanel:
+  - USE
+  - ARRANGE
+  - RARE
