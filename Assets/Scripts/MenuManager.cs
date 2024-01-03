@@ -45,8 +45,9 @@ using TMPro;
 
         #region Unity Methods
         //-------------------------------------------------------------
-        void Start()
+        void Awake()
         {
+            data.cursorBehavior = "2Axis";
             DrawSubMenu(0);
         }
 

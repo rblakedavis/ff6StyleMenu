@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -245,7 +246,7 @@ public class CursorController : MonoBehaviour
 
             }
         }
-        else
+        else if (data.menuPrefix == "main")
         {   
             Debug.Log("True Index is " +trueIndex);
             MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
@@ -258,20 +259,27 @@ public class CursorController : MonoBehaviour
     {
         if(Time.time - timeSinceLastSelect > selectDelay)
         {
-            if(isItemSelected) isItemSelected = false;
-            if (cursorClone != null) Destroy(cursorClone);
-            timeSinceLastSelect = 0f;
+            if(isItemSelected && timeSinceLastSelect > selectDelay)
+            {
+                isItemSelected = false;
+                timeSinceLastSelect = 0f;
+            } 
+            if (cursorClone != null && timeSinceLastSelect > selectDelay)
+            {
+                Destroy(cursorClone);
+                timeSinceLastSelect = 0f;
+            }
 
-            if(!isItemSelected)
+            if(!isItemSelected && timeSinceLastSelect > selectDelay)
             {
                 MenuManager menuManager = GameObject.Find("MenuContainer").GetComponent<MenuManager>();
                 switch(data.menuPrefix)
                 {
                     case "main":
+                        ExitMenu();
                         break;
                     case "itemsMenu":
-                        data.menuPrefix = "itemsSupMenu";
-                        SnapToItem(0);
+                        EnterItemsSuperMenu();
                         break;
                     case "itemsSupMenu":
                         data.menuPrefix = "main";
@@ -281,6 +289,7 @@ public class CursorController : MonoBehaviour
                     default:
                         break;
                 }
+                timeSinceLastSelect = 0f;
             }
         }
 
@@ -290,19 +299,39 @@ public class CursorController : MonoBehaviour
 
 
     IEnumerator DelayedInitialization()
-{
-    yield return null; // Wait for the next frame
+    {
+        yield return null; // Wait for the next frame
 
-    writeArea = data.writeArea;
-    // Debug.Log("write area is " + writeArea);
+        writeArea = data.writeArea;
+        // Debug.Log("write area is " + writeArea);
 
-    maxIndex = data.maxIndex;
-    // Debug.Log("max index is " + maxIndex);
+        maxIndex = data.maxIndex;
+        // Debug.Log("max index is " + maxIndex);
 
-    SnapToItem(0);
+        SnapToItem(0);
+    }
+
+    void EnterItemsSuperMenu()
+    {
+        data.menuPrefix = "itemsSupMenu";
+        data.cursorBehavior = "xAxis";
+        Transform newGParent = GameObject.Find("itemTPanel").transform;
+        Transform newParent = newGParent.Find("TextContainer");
+        List<Transform> list = new List<Transform>();
+        foreach (Transform child in newParent)list.Add(child);
+        Debug.Log("list coutn is " + list.Count);
+        transform.SetParent(newParent, false);
+        writeArea = list.Count;
+        maxIndex = list.Count;
+        data.listLength = list.Count;
+        data.isMenuSortable = false;
+        SnapToItem(0);
+        trueIndex = 0;
+    }
+
+    void ExitMenu()
+    {
+        return;
+    }
+
 }
-}
-
-
-    
-    
