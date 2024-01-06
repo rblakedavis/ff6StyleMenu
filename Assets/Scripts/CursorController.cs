@@ -51,11 +51,11 @@ public class CursorController : MonoBehaviour
             // Check if enough time has passed since the last move
             if (Time.time - timeSinceLastMove > moveDelay)
             {
-                if (inputY > 0)
+                if (inputY > 0 &&  data.cursorBehavior == "yAxis")
                 { 
                     MoveCursorUp();
                 }
-                else if (inputY < 0)
+                else if (inputY < 0 && data.cursorBehavior == "yAxis")
                 {
                     MoveCursorDown();
                 }
@@ -88,7 +88,10 @@ public class CursorController : MonoBehaviour
             MenuManager menuManager = menuContainer.GetComponent<MenuManager>();
             menuManager.ScrollMenu(false, trueIndex);
             timeSinceLastMove = Time.time;        
-            if(cursorClone != null) GhostSnap(selectedIndex, false);
+            if(cursorClone != null) 
+            {   
+                GhostSnap(selectedIndex, false);
+            }
 
             
         }       
@@ -127,7 +130,11 @@ public class CursorController : MonoBehaviour
             menuManager.ScrollMenu(true, trueIndex);
             
             timeSinceLastMove = Time.time;
-            if(cursorClone != null)  GhostSnap(selectedIndex, true);
+            if(cursorClone != null)  
+            {
+                GhostSnap(selectedIndex, true);
+                Debug.Log("tried to ghost snap");
+            }
             
 
         } 
@@ -152,7 +159,7 @@ public class CursorController : MonoBehaviour
         Debug.Log("yPos is "+ yPos);
         float oldYPos = rectTransform.sizeDelta.y * 0.5f;
         Debug.Log("oldYPos is " + yPos);
-        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY+oldYPos, 0f);
+        GetComponent<RectTransform>().anchoredPosition = new Vector3 (newX-xPos, newY+oldYPos-2f, 0f);
     }
 
     void SelectItem(int index)
@@ -200,11 +207,14 @@ public class CursorController : MonoBehaviour
         // Construct the name of the desired child
         if(newIndex >= 0 && newIndex <= writeArea-1)
         {
-            string childName = "TextInstance_" + newIndex.ToString();
+            string childName = data.menuPrefix + "TextInstance_" + newIndex.ToString();
             Transform textInstanceTransform = GameObject.Find(childName).transform;
             RectTransform rectTransform = textInstanceTransform.GetComponent<RectTransform>();
             float newY = rectTransform.anchoredPosition.y;
-            cursorClone.GetComponent<RectTransform>().anchoredPosition = new Vector3(6f, 5f+newY, 0f);
+            float newX = rectTransform.anchoredPosition.x;
+            float xPos = rectTransform.sizeDelta.x * 0.5f;
+            float yPos = rectTransform.sizeDelta.y * 0.5f;
+            cursorClone.GetComponent<RectTransform>().anchoredPosition = new Vector3(6f+newX-xPos, 5f+newY+yPos, 0f);
         }
         else
         {
@@ -228,7 +238,9 @@ public class CursorController : MonoBehaviour
 
                     cursorClone = Instantiate(cursorPrefab, transform.position + new Vector3(6f, 5f, 0f), Quaternion.identity);
                     cursorClone.name = "GhostCursor";
-                    cursorClone.transform.SetParent(GameObject.Find("TextContainer").transform);
+                    GameObject newGParent = GameObject.Find("itemItemMenu");
+                    Transform newParent = newGParent.transform.Find("TextContainer");
+                    cursorClone.transform.SetParent(newParent);
                     SetSortingOrder(cursorClone, GetSortingOrder() -2);
                     timeSinceLastSelect = 0f;
                     selectedIndex = currentIndex;

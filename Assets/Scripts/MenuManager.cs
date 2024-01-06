@@ -303,6 +303,7 @@ using TMPro;
                     DisplayText(parent, items, 0.5f);
                     data.isMenuSortable = false;
                     DrawCursor(parent);
+                    data.cursorBehavior = "yAxis";
                     break;
                 #endregion
                 //MenuType 2 = items menu 2-5
@@ -529,7 +530,7 @@ using TMPro;
             #endregion
             
             //set the cursor position to the item list's position.
-            cursorTransform.anchoredPosition = new Vector3 (newX-xPos, newY+yPos, 0f);
+            cursorTransform.anchoredPosition = new Vector3 (newX-xPos, newY+yPos-2f, 0f);
         }
 
         public void ScrollMenu(bool scrollDown, int trueIndex, List<string> content = null)
